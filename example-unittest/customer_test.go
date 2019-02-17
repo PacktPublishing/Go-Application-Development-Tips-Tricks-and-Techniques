@@ -50,7 +50,14 @@ func TestCustomerMayNotBuyBeerInGERIf15(t *testing.T) {
 	sut := Customer{"John", 15}
 	mayBuyBeer, err := sut.MayBuyBeer("GER")
 
-	assert.Contains
 	assert.Nilf(t, err, "unexpected error: %s", err)
 	assert.Falsef(t, mayBuyBeer, "should not be able to buy beer at %d", sut.Age)
+}
+
+func TestUnknownCountryCodeReturnsError(t *testing.T) {
+	sut := Customer{"John", 23}
+	mayBuyBeer, err := sut.MayBuyBeer("FRA")
+
+	assert.NotNil(t, err)
+	assert.False(t, mayBuyBeer)
 }
