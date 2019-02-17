@@ -10,6 +10,18 @@ before:
 builds:
 - env:
   - CGO_ENABLED=0
+  binary: hello
+  goos:
+  - darwin
+  - linux
+  - windows
+  - openbsd
+  - freebsd
+  goarch:
+  - amd64
+  - 386
+  - arm64
+  - arm
 archive:
   replacements:
     darwin: macOS
