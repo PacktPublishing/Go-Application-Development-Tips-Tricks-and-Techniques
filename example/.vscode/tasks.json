@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"type": "shell",
+    "presentation": {
+        "reveal": "silent",
+    },
+	"tasks": [
+        {
+            "label": "Compile project",
+            "group": "build",
+            "command": "go",
+            "args": ["build"],
+            "problemMatcher": [
+                "$go"
+            ]
+        }
+    ]
+}
