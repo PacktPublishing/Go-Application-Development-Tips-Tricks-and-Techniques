@@ -22,6 +22,13 @@ builds:
   - 386
   - arm64
   - arm
+dockers:
+- goos: linux
+  goarch: amd64
+  image_templates:
+  - "martinhelmich/hello:latest"
+  - "martinhelmich/hello:{{ .Tag }}"
+  skip_push: true
 archive:
   replacements:
     darwin: macOS
