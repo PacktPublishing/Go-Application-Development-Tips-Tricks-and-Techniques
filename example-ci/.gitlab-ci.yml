@@ -1,0 +1,69 @@
+stages:
+- build
+- test
+- release
+
+compile:go1.11:
+  stage: build
+  image: golang:1.11
+  script:
+  - go build
+
+compile:go1.10:
+  stage: build
+  image: golang:1.10
+  script:
+  - go build
+
+test:
+  stage: test
+  image: golang:1.11
+  script:
+  - go test -cover
+
+formatting:
+  stage: test
+  image: golang:1.11
+  script:
+  - test $(go fmt -l | wc -l) -eq 0
+
+vet:
+  stage: test
+  image: golang:1.11
+  script:
+  - go vet .
+
+lint:
+  stage: test
+  image: golang:1.11
+  before_script:
+  - GO111MODULE=off go get golang.org/x/lint/golint
+  script:
+  - golint -set_exit_status .
+
+release-nightly:
+  stage: release
+  image:
+    name: goreleaser/goreleaser:v0.101.0
+    entrypoint: ["/bin/sh", "-c"]
+  script:
+  - goreleaser release --snapshot --skip-publish
+  artifacts:
+    paths:
+    - dist/*.tar.gz
+    expire_in: 1 week
+  only:
+  - master
+
+release:
+  stage: release
+  image:
+    name: goreleaser/goreleaser:v0.101.0
+    entrypoint: ["/bin/sh", "-c"]
+  script:
+  - goreleaser release --skip-publish
+  artifacts:
+    paths:
+    - dist/*.tar.gz
+  only:
+  - tags
