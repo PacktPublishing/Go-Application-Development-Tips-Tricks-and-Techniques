@@ -3,7 +3,7 @@ FROM golang:1.11 as builder
 COPY . /work
 WORKDIR /work
 RUN useradd app
-RUN go build -ldflags="-w -s" -o hello
+RUN CGO_ENABLED=0 go build -ldflags="-w -s" -o hello
 
 FROM scratch
 
